@@ -102,10 +102,10 @@ def do_it_all( sample ,limit=None ):
         if i%N==0: 
             now = time.mktime(time.gmtime())
             so_far = now-start
-            print i, so_far,"[s]"
+            print (i, so_far,"[s]")
             if i:
                 eta = (so_far/i* max_I) - so_far
-                print "finishing in", int(eta),"[s]", int(eta/60.),"[m]"
+                print ("finishing in", int(eta),"[s]", int(eta/60.),"[m]")
         img = showSEvent(sample, i, show=False)
         if dataset is None:
             #print "Image shape: {}".format(img.shape)
@@ -115,16 +115,16 @@ def do_it_all( sample ,limit=None ):
     return dataset
 
 def nf( fn ):
-    return     fn.rsplit('/',1)[0]+'/images/'+fn.rsplit('/',1)[-1]
+    return  fn.rsplit('/',1)[0]+'/images/'+fn.rsplit('/',1)[-1]
 
 def change_directory(fn):
-    outdir = ''
+    outdir = './'
     filename = fn.rsplit('/',1)[-1]
 
     if "train" in fn:
-        outdir = "/bigdata/shared/LCDJetsFINAL_Abstract_IsoLep_lt_45_pt_gt_23/train/"
+        outdir += "/train/"
     if "val" in fn:
-        outdir = "/bigdata/shared/LCDJetsFINAL_Abstract_IsoLep_lt_45_pt_gt_23/val/"
+        outdir += "/val/"
     if not os.path.isdir(outdir):
         print("Making directory {}".format(outdir))
         os.makedirs(outdir)
@@ -156,7 +156,8 @@ def convert_sample( fn, limit=None ):
     reduced = make_reduced(f)
     #new_fn = nf(fn)
     new_fn = change_directory(fn)
-    print "Converting",fn,"into",new_fn,("for %s events"%limit) if limit else ""
+    if limit:
+        print ("Converting",fn,"into",new_fn,("for %s events"%limit))
     ds = do_it_all( reduced ,limit)
     n_f = h5py.File( new_fn,'w')
     #n_f['data'] = reduced 
@@ -165,14 +166,13 @@ def convert_sample( fn, limit=None ):
     if not np.isnan(ds).any():
         tmp = f['Labels'][:limit,...] if limit else f['Labels'][...]
         n_f.create_dataset('Images', data = ds, dtype = np.uint8)
-        print "Dataset shape = {}".format(ds)
+        print ("Dataset shape = {}".format(ds))
         n_f.create_dataset('Labels', data = tmp, dtype = np.uint8)
-        print "Label shape = {}".format(tmp)
+        print ("Label shape = {}".format(tmp))
     else:
-        print "%s has NaN after conversion" %fn
+        print ("%s has NaN after conversion" %fn)
     n_f.close()
-    print "Converted"
-
+    print ("Converted")
 
     
 if __name__ == "__main__":
@@ -188,11 +188,11 @@ if __name__ == "__main__":
         every = 5
         N= None
         for i,fn in enumerate(fl):
-            com = 'python TransformBetter.py %s'%( fn)
+            com = 'python3 TransformBetter.py %s'%( fn)
             if N: com += ' %d'%N
             wait = (i%every==(every-1))
             if not wait: com +='&'
-            print com
+            print(com)
             os.system(com)
             if wait and N:
                 time.sleep( 60 )
