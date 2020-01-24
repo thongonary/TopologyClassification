@@ -27,17 +27,10 @@ shapes = {'isMu' : 5,
           'isEle': 5,
           'isGamma':3,
           'isChHad' : 4,
-          'isNeuHad': 0}
-
-signs = {'isMu' : 1,
-         'isEle': 1,
-         'isGamma': -1,
-         'isChHad' : 1,
-         'isNeuHad': -1}
+          'isNeuHad': 6}
 
 cc_shapes = [shapes[k] for k in features[13:]]+[0]
 cc_layers = [layers[k] for k in features[13:]]+[4]
-cc_signs = [signs[k] for k in features[13:]]+[1]
 
 def showSEvent(d,i,show=True):
     data = d[int(i),...]
@@ -63,7 +56,7 @@ def showSEvent(d,i,show=True):
         lpT = p_data[2]
         ptype = int(p_data[3])
         layer = cc_layers[ptype]
-        s = cc_shapes[ ptype ]
+        s = cc_shapes[ptype]
         R = lpT * res/1.
         iee = ieta(eta)
         ip0 = iphi(phi)
@@ -88,7 +81,7 @@ def showSEvent(d,i,show=True):
             
         xi = np.concatenate((xi0,xi1,xi2))
         yi = np.concatenate((yi0,yi1,yi2))
-        image[xi,yi,layer] = 1 #cc_signs[ptype]
+        image[xi,yi,layer] = 1 
     
 
     if show:
@@ -129,9 +122,9 @@ def change_directory(fn):
     filename = fn.rsplit('/',1)[-1]
 
     if "train" in fn:
-        outdir = "/bigdata/shared/LCDJets_Abstract_IsoLep_lt_45_pt_gt_23/train/"
+        outdir = "/bigdata/shared/LCDJetsFINAL_Abstract_IsoLep_lt_45_pt_gt_23/train/"
     if "val" in fn:
-        outdir = "/bigdata/shared/LCDJets_Abstract_IsoLep_lt_45_pt_gt_23/val/"
+        outdir = "/bigdata/shared/LCDJetsFINAL_Abstract_IsoLep_lt_45_pt_gt_23/val/"
     if not os.path.isdir(outdir):
         print("Making directory {}".format(outdir))
         os.makedirs(outdir)
