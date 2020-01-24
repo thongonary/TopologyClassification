@@ -227,10 +227,10 @@ def do_it_all( sample ,limit=None ):
         if i%N==0: 
             now = time.mktime(time.gmtime())
             so_far = now-start
-            print i, so_far,"[s]"
+            print (i, so_far,"[s]")
             if i:
                 eta = (so_far/i* max_I) - so_far
-                print "finishing in", int(eta),"[s]", int(eta/60.),"[m]"
+                print ("finishing in", int(eta),"[s]", int(eta/60.),"[m]")
         all_hists = showSEvent(sample, i, show=False)
         
         # Return 11 numpy arrays corresponding to 11 histograms
@@ -276,7 +276,8 @@ def convert_sample( fn, limit=None ):
     reduced = make_reduced(f)
     #new_fn = nf(fn)
     new_fn = move_to_thong(fn)
-    print "Converting",fn,"into",new_fn,("for %s events"%limit) if limit else ""
+    if limit:
+        print ("Converting",fn,"into",new_fn,("for %s events"%limit)) 
     ds = do_it_all( reduced ,limit)
     n_f = h5py.File( new_fn,'w')
     #n_f['data'] = reduced 
@@ -286,7 +287,7 @@ def convert_sample( fn, limit=None ):
     for i in range(len(ds)):
         checkNaN.append(np.isnan(ds[i]).any())
     if True in checkNaN:
-        print "%s has NaN after conversion" %fn
+        print ("%s has NaN after conversion" %fn)
     else:
         tmp = f['Labels'][:limit,...] if limit else f['Labels'][...]
         n_f.create_dataset('ECAL_ForwardN', data = ds[0], dtype = np.float32)
@@ -318,11 +319,11 @@ if __name__ == "__main__":
         every = 5
         N= None
         for i,fn in enumerate(fl):
-            com = 'python TransformArray.py %s'%( fn)
+            com = 'python3 TransformArray.py %s'%( fn)
             if N: com += ' %d'%N
             wait = (i%every==(every-1))
             if not wait: com +='&'
-            print com
+            print (com)
             os.system(com)
             if wait and N:
                 time.sleep( 60 )

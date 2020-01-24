@@ -157,10 +157,10 @@ def do_it_all( sample, index, label, isval=False , lowerLimit=None, upperLimit =
         if i%N==0: 
             now = time.mktime(time.gmtime())
             so_far = now-start
-            print i, so_far,"[s]"
+            print (i, so_far,"[s]")
             if i:
                 eta = (so_far/(i-lowerLimit)* (upperLimit-lowerLimit)) - so_far
-                print "finishing in", int(eta),"[s]", int(eta/60.),"[m]"
+                print ("finishing in", int(eta),"[s]", int(eta/60.),"[m]")
         ECALGamma = rt.TH2Poly()
         ECALTrack = rt.TH2Poly()
         HCAL = rt.TH2Poly()
@@ -233,7 +233,7 @@ def make_reduced( f ) :
 def convert_sample( fn, lowerLimit=None, upperLimit = None ):
     f = h5py.File(fn)    
     reduced = make_reduced(f)
-    print "Converting",fn 
+    print ("Converting",fn)
     index = fn.rsplit('/',1)[-1].replace('.h5','')
     isval = "val" in fn
     if "qcd" in fn: label = 0
@@ -241,7 +241,7 @@ def convert_sample( fn, lowerLimit=None, upperLimit = None ):
     if "wjets" in fn: label = 2
     ds = do_it_all( reduced,index, label , isval, lowerLimit, upperLimit)
     f.close()
-    print "Converted"
+    print ("Converted")
     
 if __name__ == "__main__":
     if len(sys.argv)>1:
@@ -261,11 +261,11 @@ if __name__ == "__main__":
         every = 5
         N= None
         for i,fn in enumerate(fl):
-            com = 'python TransformToRawImage.py %s'%( fn)
+            com = 'python3 TransformToRawImage.py %s'%( fn)
             if N: com += ' %d'%N
             wait = (i%every==(every-1))
             if not wait: com +='&'
-            print com
+            print (com)
             os.system(com)
             if wait and N:
                 time.sleep( 60 )
