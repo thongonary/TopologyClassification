@@ -3,7 +3,7 @@ Codebase to reproduce dataset for https://arxiv.org/abs/1807.00083
 
 ## To create the raw image
 The raw image is set to png because of the irregularity of detector resolution.
-To create an image from the input h5 file, do:
+To create an image from the input h5 file (the one with particle list), do:
 ```
 python TransformToRawImage.py [inputFile] [lowerLimit] [upperLimit]
 ```
@@ -26,5 +26,5 @@ Same usage as above:
 ```
 python TransformToAbstractImage.py [inputFile] [lowerLimit] [upperLimit]
 ```
-and remember to change the input/output directory
+and remember to change the input/output directory.
 
