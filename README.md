@@ -22,4 +22,9 @@ The usage is the same as `TransformToRawImage.py`
 
 ## To creat the abstract image
 
+Same usage as above:
+```
+python TransformToAbstractImage.py [inputFile] [lowerLimit] [upperLimit]
+```
+and remember to change the input/output directory
 
