@@ -5,11 +5,11 @@ Codebase to reproduce dataset for https://arxiv.org/abs/1807.00083
 The raw image is set to png because of the irregularity of detector resolution.
 To create an image from the input h5 file (the one with particle list), do:
 ```
-python TransformToRawImage.py [inputFile] [lowerLimit] [upperLimit]
+python TransformToRawImage.py [inputFile] [nEvents]
 ```
 where the arguments are all optional. If no input file is specified, it will transform the whole input directory specified in the source code. 
 
-`lowerLimit` and `upperLimit` indicate the number of events to transform within the input file.
+`nEvents` indicates the number of events to transform within the input file.
 
 Before running the code, please modify the input and output directory in the source code.
 
