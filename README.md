@@ -12,3 +12,10 @@ where the arguments are all optional. If no input file is specified, it will tra
 `lowerLimit` and `upperLimit` indicate the number of events to transform within the input file.
 
 Before running the code, please modify the input and output directory in the source code.
+
+We also have the version of using numpy arrays instead of PNG images, but we observed either similar or worse performances so we did not include it in the paper:
+
+* `TransformArray.py`: treat each component of the detector as a separated channel and concatenate them altogether as a 3D matrix.
+* `TransformOneArray.py`: append each component next to each other as a flat and long 2D matrix, similar to the PNG image.
+
+The usage is the same as `TransformToRawImage.py`
