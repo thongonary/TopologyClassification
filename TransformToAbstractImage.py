@@ -118,7 +118,7 @@ def nf( fn ):
     return  fn.rsplit('/',1)[0]+'/images/'+fn.rsplit('/',1)[-1]
 
 def change_directory(fn):
-    outdir = './'
+    outdir = '/storage/group/gpu/bigdata/AbstractEventImage/'
     filename = fn.rsplit('/',1)[-1]
 
     if "train" in fn:
@@ -182,13 +182,13 @@ if __name__ == "__main__":
         convert_sample(sys.argv[1], limit)
     else:
         fl = []
-        fl.extend(glob.glob('/bigdata/shared/Delphes/np_datasets_IsoLep_lt_45_pt_gt_23/3_way/MaxLepDeltaR_des/train/*.h5'))
-        fl.extend(glob.glob('/bigdata/shared/Delphes/np_datasets_IsoLep_lt_45_pt_gt_23/3_way/MaxLepDeltaR_des/val/*.h5'))
+        fl.extend(glob.glob('/storage/group/gpu/bigdata//Delphes/np_datasets_IsoLep_lt_45_pt_gt_23/3_way/MaxLepDeltaR_des/train/*.h5'))
+        fl.extend(glob.glob('/storage/group/gpu/bigdata//Delphes/np_datasets_IsoLep_lt_45_pt_gt_23/3_way/MaxLepDeltaR_des/val/*.h5'))
         random.shuffle( fl )
         every = 5
         N= None
         for i,fn in enumerate(fl):
-            com = 'python3 TransformBetter.py %s'%( fn)
+            com = 'python3 TransformToAbstractImage.py %s'%( fn)
             if N: com += ' %d'%N
             wait = (i%every==(every-1))
             if not wait: com +='&'
